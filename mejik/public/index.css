@@ -1,0 +1,11 @@
+.magenta {
+  background-color: #8854d0;
+  height: 100vh;
+  width: 100vw;
+}
+
+.login-body {
+  color: white;
+  text-align: center;
+  width: 300px;
+}
