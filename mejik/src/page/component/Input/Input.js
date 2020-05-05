@@ -4,8 +4,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import { makeStyles, withStyles, fade } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import SearchIcon from "@material-ui/icons/Search";
+import Paper from "@material-ui/core/Paper";
 
 const Label = withStyles({
   root: {
@@ -50,6 +49,7 @@ const Input = ({
     input: {
       borderRadius: 4,
       color: color,
+      marginLeft: 5,
       position: "relative",
       fontSize: 16,
       backgroundColor: bgcolor,
