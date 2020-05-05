@@ -5,9 +5,11 @@ import Card from "./component/Card/CardWithImage";
 import Button from "./component/Button/Button";
 
 const InstructorCourse = () => {
-  return (
+  const data = true;
+
+  return data ? (
     <div className="bg-light" style={{ height: "100vh" }}>
-      <TopNavBar />
+      <TopNavBar name="Switch to student view" />
       <div className="container mt-3">
         <div className="row">
           <h3 style={{ fontWeight: "bolder" }}>Created Course</h3>
@@ -27,6 +29,8 @@ const InstructorCourse = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <h1>no course</h1>
   );
 };
 

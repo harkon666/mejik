@@ -6,7 +6,7 @@ import Card from "./component/Card/CardWithImage";
 const StudentCourse = () => {
   return (
     <div className="bg-light" style={{ height: "100vh" }}>
-      <TopNavBar />
+      <TopNavBar name="Switch to instructor view" />
       <div className="container">
         <div className="row">
           {new Array(10).fill("").map((val, i) => (

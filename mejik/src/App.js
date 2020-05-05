@@ -7,6 +7,7 @@ import Landing from "./page/landing";
 import StudentCourse from "./page/studentCourse";
 import MyCourse from "./page/myCourse";
 import InstructorCourse from "./page/instructorCourse";
+import Course from "./page/course";
 
 function App() {
   return (
@@ -15,8 +16,9 @@ function App() {
         <Route path="/" exact component={Landing} />
         <Route path="/login" exact component={Login} />
         <Route path="/course/student" exact component={StudentCourse} />
-        <Route path="/course" exact component={MyCourse} />
-        <Route Path="/course/instructor" exact component={InstructorCourse} />
+        <Route path="/my-course" exact component={MyCourse} />
+        <Route path="/course/instructor" exact component={InstructorCourse} />
+        <Route path="/course" exact component={Course} />
       </Switch>
     </Router>
   );

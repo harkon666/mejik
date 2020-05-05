@@ -6,6 +6,7 @@ import Logo from "../../../images/Logo.svg";
 import SearchInput from "../BootstrapInput/BootstrapInput";
 import SearchIcon from "@material-ui/icons/Search";
 import Button from "../Button/Button";
+import AppsOutlinedIcon from "@material-ui/icons/AppsOutlined";
 
 const TopNavBar = ({ color = "black", name }) => {
   return (
@@ -17,19 +18,17 @@ const TopNavBar = ({ color = "black", name }) => {
         height="50"
         width="50"
       />
+      <div className="d-inline-flex">
+        <AppsOutlinedIcon />
+        <p>Category</p>
+      </div>
       <SearchInput
         icon={<SearchIcon />}
         bgcolor="#f0f2f5"
         color="black"
         name="Search course here ..."
       />
-      <p style={{ fontWeight: "bold", color: color }}>My Course</p>
-      <Button
-        width="225px"
-        style={{ fontSize: 12, color: "#8854d0", borderColor: "#8854d0" }}
-        name={name}
-        variant="outlined"
-      />
+      <p style={{ fontWeight: "bold", color: color }}>Instructor</p>
       <img
         src={image}
         width="50"
