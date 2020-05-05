@@ -4,19 +4,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import { makeStyles, withStyles, fade } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import SearchIcon from "@material-ui/icons/Search";
-
-const Label = withStyles({
-  root: {
-    "&.MuiFormLabel-root": {
-      color: "#b094d7",
-    },
-    "&.Mui-focused": {
-      color: "white",
-    },
-  },
-})(InputLabel);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +24,8 @@ const Input = ({
   bgcolor,
   color,
   label = null,
+  labelColor,
+  width,
 }) => {
   const classes = useStyles();
   const Icon = icon;
@@ -50,10 +39,9 @@ const Input = ({
     input: {
       borderRadius: 4,
       color: color,
-      position: "relative",
       fontSize: 16,
       backgroundColor: bgcolor,
-      width: "300px",
+      width: width,
       padding: "10px 12px",
       transition: theme.transitions.create(["border-color", "box-shadow"]),
       // Use the system font instead of the default Roboto font.
@@ -64,11 +52,33 @@ const Input = ({
     },
   }))(InputBase);
 
-  return (
-    <FormControl className={classes.margin}>
+  const Label = withStyles({
+    root: {
+      "&.MuiFormLabel-root": {
+        color: labelColor,
+        fontWeight: 800,
+      },
+      "&.Mui-focused": {
+        color: labelColor,
+      },
+    },
+  })(InputLabel);
+
+  return label ? (
+    <FormControl style={{ width: width }} className={classes.margin}>
       <Label shrink htmlFor={label}>
         {label}
       </Label>
+      <BootstrapInput
+        type={type}
+        value={value}
+        onChange={onChange}
+        placeholder={name}
+        id={label}
+      />
+    </FormControl>
+  ) : (
+    <FormControl style={{ width: width }} className={classes.margin}>
       <BootstrapInput
         type={type}
         value={value}

@@ -70,7 +70,14 @@ export default function CustomizedExpansionPanels() {
           id="panel1d-header"
         >
           <AddOutlinedIcon className="mr-2" />
-          <Typography>Collapsible Group Item #1</Typography>
+          <Typography style={{ fontWeight: "bold" }}>Title #1</Typography>
+          <Typography style={{ marginLeft: "auto" }}>10 Lectures</Typography>
+          <Typography
+            className="text-ligth"
+            style={{ marginLeft: 125, marginRight: 15 }}
+          >
+            42:21
+          </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Typography>
