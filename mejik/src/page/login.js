@@ -48,7 +48,13 @@ const Login = () => {
                 Forgotten your password?
               </a>
             </div>
-            <Button name="Login" variant="contained" />
+            <Button
+              name="Login"
+              variant="contained"
+              color="black"
+              width="325px"
+              bgcolor="#fac024"
+            />
             <div className="d-inline-flex" style={{ marginBottom: 80 }}>
               <p
                 style={{

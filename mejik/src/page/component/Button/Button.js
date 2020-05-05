@@ -10,14 +10,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CostumeButton = ({ name, variant, bgcolor, color }) => {
+const CostumeButton = ({ name, variant, bgcolor, color, width, style }) => {
   const ColorButton = withStyles((theme) => ({
     root: {
-      //   color: "black",
       color: color,
-      width: "325px",
+      width: width,
       marginRight: 0,
-      //   backgroundColor: "#fac024",
       backgroundColor: bgcolor,
       "&:hover": {
         backgroundColor: "#fac024",
@@ -26,7 +24,11 @@ const CostumeButton = ({ name, variant, bgcolor, color }) => {
   }))(Button);
 
   const classes = useStyles();
-  return <ColorButton variant={variant}>{name}</ColorButton>;
+  return (
+    <ColorButton style={style} variant={variant}>
+      {name}
+    </ColorButton>
+  );
 };
 
 export default CostumeButton;
