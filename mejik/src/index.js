@@ -10,8 +10,14 @@ import { ApolloProvider } from "react-apollo";
 const token = "";
 
 const link = createHttpLink({
-  uri: `https://mejikacademy1588499516927.microgen.mejik.id`,
+  uri: `https://mejikacademy1588499516927.microgen.mejik.id/graphql`,
   credentials: "same-origin",
+  headers: {
+    authorization: ''
+  },
+  fetchOptions: {
+    mode: 'no-cors'
+  }
 });
 
 const client = new ApolloClient({

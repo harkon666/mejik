@@ -35,15 +35,14 @@ const Login = () => {
   const { error, data } = useQuery(COURSE);
 
   const postLogin = async () => {
-    console.log("masuk");
     try {
-      await login({
+      let data = await login({
         variables: {
           email: email,
           password: password,
         },
       });
-      console.log("success");
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
