@@ -25,5 +25,6 @@ const WatchCourse = () => {
     </div>
   );
 };
+//
 
 export default WatchCourse;
