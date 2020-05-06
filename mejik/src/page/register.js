@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { gql } from "apollo-boost";
-import { useMutation } from "@apollo/react-hooks";
-import { useQuery } from "@apollo/react-hooks";
+import { API, graphqlOperation } from "aws-amplify";
+import gql from "graphql-tag";
 
 import Logography from "../images/Logography.svg";
 import Input from "./component/BootstrapInput/BootstrapInput";
@@ -9,21 +8,26 @@ import CheckBox from "./component/CheckBox/CheckBox";
 import Button from "./component/Button/Button";
 
 const LOGIN = gql`
-  mutation login($email: EmailAddress!, $password: String) {
-    login(input: { email: $email, password: $password }) {
+  mutation regist(
+    $email: EmailAddress!
+    $password: String!
+    $firstName: String!
+    $lastName: String!
+    $phoneNumber: PhoneNumber
+  ) {
+    register(
+      input: {
+        email: $email
+        password: $password
+        firstName: $firstName
+        lastName: $lastName
+        phoneNumber: $phoneNumber
+      }
+    ) {
       token
-      user
-    }
-  }
-`;
-
-const COURSE = gql`
-  query {
-    courses {
-      id
-      title
-      cover
-      description
+      user {
+        firstName
+      }
     }
   }
 `;
@@ -31,31 +35,28 @@ const COURSE = gql`
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [login] = useMutation(LOGIN);
-  const { error, data } = useQuery(COURSE);
+  const [firstname, setFirstname] = useState("");
+  const [Lastname, setLastname] = useState("");
+  const [phone, setPhone] = useState("");
 
   const postLogin = async () => {
-    console.log("masuk");
     try {
-      await login({
-        variables: {
-          email: email,
-          password: password,
-        },
-      });
-      console.log("success");
-    } catch (error) {
-      console.log(error);
+      let response = await API.graphql(
+        graphqlOperation(LOGIN, {
+          input: {
+            email: email,
+            password: password,
+          },
+        })
+      );
+
+      console.log(response);
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  const getCourse = async () => {
-    try {
-      console.log(error, data);
-    } catch {
-      console.log(error);
-    }
-  };
+  console.log(email);
   return (
     <div style={{ backgroundColor: "#8854d0" }}>
       <div className="container">
@@ -67,8 +68,8 @@ const Login = () => {
               style={{ marginBottom: 50, marginTop: 80 }}
             />
             <div className="mx-3">
-              <h1>Login</h1>
-              <p>Login and start managing your learning process!</p>
+              <h1>Register</h1>
+              <p>Register and start managing your learning process!</p>
             </div>
             <Input
               width="100%"
@@ -92,22 +93,48 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div className="d-inline-flex">
-              <CheckBox labelName="Keep me signed in" />
-              <a
-                style={{ fontSize: 14, color: "#ecb339", marginTop: 12 }}
-                href="#"
-              >
-                Forgotten your password?
-              </a>
-            </div>
+            <Input
+              width="100%"
+              labelColor="white"
+              label="firstname"
+              color="white"
+              type="text"
+              bgcolor="#7b4cbc"
+              name="firtsname"
+              value={firstname}
+              onChange={(e) => setFirstname(e.target.value)}
+            />
+            <Input
+              width="100%"
+              labelColor="white"
+              label="lastname"
+              color="white"
+              type="text"
+              bgcolor="#7b4cbc"
+              name="lastname"
+              value={Lastname}
+              onChange={(e) => setLastname(e.target.value)}
+            />
+            <Input
+              width="100%"
+              labelColor="white"
+              label="phone number"
+              color="white"
+              type="text"
+              bgcolor="#7b4cbc"
+              name="phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
             <Button
               name="Login"
               variant="contained"
               color="black"
               width="325px"
               bgcolor="#fac024"
-              onClick={() => postLogin()}
+              onClick={() => {
+                postLogin();
+              }}
             />
             <div className="d-inline-flex" style={{ marginBottom: 80 }}>
               <p

@@ -30,13 +30,11 @@ const Input = ({
   const classes = useStyles();
   const Icon = icon;
 
-  const BootstrapInput = withStyles((theme) => ({
+  const BootstrapInput = makeStyles((theme) => ({
     root: {
       "label + &": {
         marginTop: theme.spacing(3),
       },
-    },
-    input: {
       borderRadius: 4,
       color: color,
       fontSize: 16,
@@ -50,7 +48,7 @@ const Input = ({
         borderColor: theme.palette.primary.main,
       },
     },
-  }))(InputBase);
+  }));
 
   const Label = withStyles({
     root: {
@@ -64,27 +62,29 @@ const Input = ({
     },
   })(InputLabel);
 
+  const inputStyle = BootstrapInput();
+
   return label ? (
     <FormControl style={{ width: width }} className={classes.margin}>
       <Label shrink htmlFor={label}>
         {label}
       </Label>
-      <BootstrapInput
+      <InputBase
+        className={inputStyle.root}
+        placeholder={name}
         type={type}
         value={value}
         onChange={onChange}
-        placeholder={name}
-        id={label}
       />
     </FormControl>
   ) : (
     <FormControl style={{ width: width }} className={classes.margin}>
-      <BootstrapInput
+      <InputBase
+        className={inputStyle.root}
+        placeholder={name}
         type={type}
         value={value}
         onChange={onChange}
-        placeholder={name}
-        id={label}
       />
     </FormControl>
   );
