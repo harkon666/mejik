@@ -10,7 +10,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CostumeButton = ({ name, variant, bgcolor, color, width, style }) => {
+const CostumeButton = ({
+  name,
+  variant,
+  bgcolor,
+  color,
+  width,
+  style,
+  onClick,
+}) => {
   const ColorButton = withStyles((theme) => ({
     root: {
       color: color,
@@ -25,7 +33,7 @@ const CostumeButton = ({ name, variant, bgcolor, color, width, style }) => {
 
   const classes = useStyles();
   return (
-    <ColorButton style={style} variant={variant}>
+    <ColorButton style={style} variant={variant} onClick={onClick}>
       {name}
     </ColorButton>
   );

@@ -10,6 +10,7 @@ import InstructorCourse from "./page/instructorCourse";
 import Course from "./page/course";
 import CreateCourse from "./page/createCourse";
 import WatchCourse from "./page/watchCourse";
+import Register from "./page/register";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/course" exact component={Course} />
         <Route path="/course/create" exact component={CreateCourse} />
         <Route path="/course/watch" exact component={WatchCourse} />
+        <Route path="/register" exact component={Register} />
       </Switch>
     </Router>
   );
