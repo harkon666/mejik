@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import { Link } from "react-router-dom";
@@ -22,7 +22,7 @@ const StudentCourse = () => {
   console.log(data?.courses);
   return (
     <div className="bg-light" style={{ height: "100vh" }}>
-      <TopNavBar name="Switch to instructor view" />
+      <TopNavBar name="switch to instructor view" />
       <div className="mx-5">
         <div className="row">
           {data?.courses.map((val) => (

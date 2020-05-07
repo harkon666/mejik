@@ -1,18 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
+import Modal from "./component/Modal/Modal";
 import TopNavBar from "./component/NavBar/TopNavBarWithSearch";
 import Card from "./component/Card/CardWithImage";
 import Button from "./component/Button/Button";
 
-const InstructorCourse = () => {
-  const data = true;
+const COURSES = gql`
+  query {
+    courses {
+      id
+      createdBy {
+        id
+      }
+      title
+      cover
+      description
+    }
+  }
+`;
 
-  return data ? (
+const InstructorCourse = () => {
+  const { data, loading } = useQuery(COURSES);
+  const [open, setOpen] = useState(false);
+
+  if (loading) return <h1>Loading...</h1>;
+  return (
     <div className="bg-light" style={{ height: "100vh" }}>
-      <TopNavBar name="Switch to student view" />
+      <TopNavBar name="switch to student view" />
       <div className="container mt-3">
         <div className="row">
           <h3 style={{ fontWeight: "bolder" }}>Created Course</h3>
@@ -21,19 +38,24 @@ const InstructorCourse = () => {
             name="New Course"
             color="white"
             bgcolor="#8854d0"
+            onClick={() => setOpen(true)}
           />
         </div>
         <div className="row">
-          {new Array(2).fill("").map((val, i) => (
+          {data.courses.map((val) => (
             <div className="my-3 mx-1">
-              <Card />
+              <Card
+                key={val.id}
+                img={val.cover}
+                title={val.title}
+                description={val.description}
+              />
             </div>
           ))}
         </div>
       </div>
+      <Modal open={open} handleClose={() => setOpen(false)} />
     </div>
-  ) : (
-    <h1>no course</h1>
   );
 };
 

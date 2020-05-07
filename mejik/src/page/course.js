@@ -31,7 +31,7 @@ const Course = () => {
   }
 `;
   const { error, loading, data } = useQuery(COURSE);
-  console.log(data, "woi");
+  console.log(data, "test");
   if (loading) return <h1>Loading..</h1>;
   return (
     <div className="bg-light" style={{ height: "100vh" }}>
@@ -42,10 +42,10 @@ const Course = () => {
             <div className="row">
               <div className="col-8">
                 <h3 style={{ fontWeight: "bold" }}>
-                  {data.sections[0].course.title}
+                  {/* {data.sections[0].course.title} */}
                 </h3>
                 <p className="text-light">
-                  {data.sections[0].course.description}
+                  {/* {data.sections[0].course.description} */}
                 </p>
                 <Link
                   to={`/course/watch/${id}/${data.sections[0].lectures[0].id}`}

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import image from "../../../images/Logo.svg";
 
@@ -24,12 +25,25 @@ const TopNavBar = ({ color = "black", name }) => {
         name="Search course here ..."
       />
       <p style={{ fontWeight: "bold", color: color }}>My Course</p>
-      <Button
-        width="225px"
-        style={{ fontSize: 12, color: "#8854d0", borderColor: "#8854d0" }}
-        name={name}
-        variant="outlined"
-      />
+      {name === "switch to student view" ? (
+        <Link to="/course/student">
+          <Button
+            width="225px"
+            style={{ fontSize: 12, color: "#8854d0", borderColor: "#8854d0" }}
+            name={name}
+            variant="outlined"
+          />
+        </Link>
+      ) : (
+        <Link to="/course/instructor">
+          <Button
+            width="225px"
+            style={{ fontSize: 12, color: "#8854d0", borderColor: "#8854d0" }}
+            name={name}
+            variant="outlined"
+          />
+        </Link>
+      )}
       <img
         src={image}
         width="50"

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
-import { useQuery } from "@apollo/react-hooks";
 import { Redirect } from "react-router-dom";
 
 import Logography from "../images/Logography.svg";
