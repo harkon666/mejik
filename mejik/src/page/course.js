@@ -1,7 +1,7 @@
 import React from "react";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Redirect } from "react-router-dom";
 
 //component
 import TopNavBarWithCategory from "./component/NavBar/TopNavBarWithCategory";
@@ -32,6 +32,9 @@ const Course = () => {
 `;
   const { error, loading, data } = useQuery(COURSE);
   console.log(data, "test");
+
+  if (!localStorage.getItem('jwt')) return <Redirect to="/login" /> 
+
   if (loading) return <h1>Loading..</h1>;
   return (
     <div className="bg-light" style={{ height: "100vh" }}>

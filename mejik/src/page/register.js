@@ -1,62 +1,52 @@
 import React, { useState } from "react";
-import { API, graphqlOperation } from "aws-amplify";
 import gql from "graphql-tag";
+import { useMutation } from "@apollo/react-hooks";
+import {Redirect} from 'react-router-dom'
 
 import Logography from "../images/Logography.svg";
 import Input from "./component/BootstrapInput/BootstrapInput";
-import CheckBox from "./component/CheckBox/CheckBox";
 import Button from "./component/Button/Button";
 
-const LOGIN = gql`
-  mutation regist(
-    $email: EmailAddress!
-    $password: String!
-    $firstName: String!
-    $lastName: String!
-    $phoneNumber: PhoneNumber
-  ) {
-    register(
-      input: {
-        email: $email
-        password: $password
-        firstName: $firstName
-        lastName: $lastName
-        phoneNumber: $phoneNumber
-      }
-    ) {
+const REGISTER = gql`
+mutation regist($email: EmailAddress!, $password : String!, $firstName: String!, $lastName: String!, $phoneNumber: PhoneNumber) {
+  register(input: {email:$email, password:$password, firstName:$firstName,lastName:$lastName, phoneNumber: $phoneNumber }){
       token
-      user {
-        firstName
+      user{
+          firstName
       }
-    }
   }
+}
 `;
 
-const Login = () => {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
-  const [Lastname, setLastname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [phone, setPhone] = useState("");
-
-  const postLogin = async () => {
-    try {
-      let response = await API.graphql(
-        graphqlOperation(LOGIN, {
-          input: {
+  const [success, setSuccess] = useState(false)
+  const [register] = useMutation(REGISTER)
+   
+    const Regist = async () => {
+      console.log('masuk')
+      try {
+        let data = await register({
+          variables: {
             email: email,
             password: password,
+            firstName: firstname,
+            lastName: lastname,
+            phoneNumber: phone
           },
-        })
-      );
-
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+        });
+        return data;
+      } catch (error) {
+        return error;
+      }
+    };
 
   console.log(email);
+  if (success) return <Redirect to="/course/student" />
   return (
     <div style={{ backgroundColor: "#8854d0" }}>
       <div className="container">
@@ -77,7 +67,7 @@ const Login = () => {
               color="white"
               labelColor="white"
               name="Email"
-              type="email"
+              type="text"
               bgcolor="#7b4cbc"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -112,7 +102,7 @@ const Login = () => {
               type="text"
               bgcolor="#7b4cbc"
               name="lastname"
-              value={Lastname}
+              value={lastname}
               onChange={(e) => setLastname(e.target.value)}
             />
             <Input
@@ -132,8 +122,14 @@ const Login = () => {
               color="black"
               width="325px"
               bgcolor="#fac024"
-              onClick={() => {
-                postLogin();
+              onClick={async () => {
+                let data = await Regist()
+                if (data.data) {
+                  localStorage.setItem('jwt', data.data.register.token)
+                  setSuccess(true)
+                } else {
+                  console.log(data)
+                }
               }}
             />
             <div className="d-inline-flex" style={{ marginBottom: 80 }}>
@@ -166,4 +162,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

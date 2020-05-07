@@ -2,6 +2,7 @@ import React from "react";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import { useParams } from "react-router-dom";
+import {Redirect} from 'react-router-dom'
 
 //component
 import NavBar from "./component/NavBar/TopNavBarWithTitle";
@@ -41,10 +42,11 @@ const WatchCourse = () => {
       }
     }
   `;
-
   const { data, loading } = useQuery(SECTION);
   const { data: dataLec, loading: loadingLec } = useQuery(LECTURE);
   console.log(data, 1);
+
+  if (!localStorage.getItem('jwt')) return <Redirect to="/login" /> 
 
   if (loading || loadingLec) return <h1>Loading..</h1>;
   return (

@@ -1,4 +1,5 @@
 import React from "react";
+import {Redirect} from 'react-router-dom'
 
 //component
 import NavBar from "./component/NavBar/TopNavBar";
@@ -9,6 +10,8 @@ import Input from "./component/BootstrapInput/BootstrapInput";
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 
 const CreateCourse = () => {
+  if (!localStorage.getItem('jwt')) return <Redirect to="/login" /> 
+
   return (
     <div className="bg-light" style={{ height: "100vh" }}>
       <NavBar />

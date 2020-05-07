@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 import Logography from "../images/Logography.svg";
 import Input from "./component/BootstrapInput/BootstrapInput";
@@ -20,6 +20,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login] = useMutation(LOGIN);
+  const [success, setSuccess] = useState(false)
 
   const postLogin = async () => {
     try {
@@ -35,7 +36,7 @@ const Login = () => {
     }
   };
 
-  if (localStorage.getItem("jwt")) return <Redirect to="/course/student" />;
+  if (localStorage.getItem("jwt") || success) return <Redirect to="/course/student" />;
   return (
     <div style={{ backgroundColor: "#8854d0" }}>
       <div className="container">
@@ -91,6 +92,7 @@ const Login = () => {
                 let data = await postLogin();
                 if (data.data) {
                   localStorage.setItem("jwt", data.data.login.token);
+                  setSuccess(true)
                 } else {
                   console.log("error");
                 }
@@ -107,17 +109,14 @@ const Login = () => {
               >
                 Don't have an account yet?{" "}
               </p>
-              <a
-                style={{
+              <Link style={{
                   fontSize: 14,
                   color: "#ecb339",
                   marginTop: 12,
                   fontWeight: "bold",
-                }}
-                href="#"
-              >
+                }} to="/register">
                 Register here
-              </a>
+              </Link>
             </div>
           </div>
         </div>
