@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
 //page
 import Login from "./page/login";
@@ -21,9 +26,9 @@ function App() {
         <Route path="/course/student" exact component={StudentCourse} />
         <Route path="/my-course" exact component={MyCourse} />
         <Route path="/course/instructor" exact component={InstructorCourse} />
-        <Route path="/course" exact component={Course} />
+        <Route path="/course/choose/:id" exact component={Course} />
         <Route path="/course/create" exact component={CreateCourse} />
-        <Route path="/course/watch" exact component={WatchCourse} />
+        <Route path="/course/watch/:id1/:id2" exact component={WatchCourse} />
         <Route path="/register" exact component={Register} />
       </Switch>
     </Router>

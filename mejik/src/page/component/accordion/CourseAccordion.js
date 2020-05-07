@@ -50,8 +50,8 @@ const ExpansionPanelDetails = withStyles((theme) => ({
   },
 }))(MuiExpansionPanelDetails);
 
-export default function CustomizedExpansionPanels() {
-  const [expanded, setExpanded] = React.useState("panel1");
+export default function CustomizedExpansionPanels({ data }) {
+  const [expanded, setExpanded] = React.useState("");
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -59,75 +59,39 @@ export default function CustomizedExpansionPanels() {
 
   return (
     <div>
-      <ExpansionPanel
-        square
-        expanded={expanded === "panel1"}
-        onChange={handleChange("panel1")}
-        className="my-3"
-      >
-        <ExpansionPanelSummary
-          aria-controls="panel1d-content"
-          id="panel1d-header"
+      {data.map((val) => (
+        <ExpansionPanel
+          square
+          expanded={expanded === val.id}
+          onChange={handleChange(val.id)}
+          className="my-3"
+          key={val.id}
         >
-          <AddOutlinedIcon className="mr-2" />
-          <Typography style={{ fontWeight: "bold" }}>Title #1</Typography>
-          <Typography style={{ marginLeft: "auto" }}>10 Lectures</Typography>
-          <Typography
-            className="text-ligth"
-            style={{ marginLeft: 125, marginRight: 15 }}
+          <ExpansionPanelSummary
+            aria-controls="panel1d-content"
+            id="panel1d-header"
           >
-            42:21
-          </Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-            lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-      <ExpansionPanel
-        square
-        expanded={expanded === "panel2"}
-        onChange={handleChange("panel2")}
-      >
-        <ExpansionPanelSummary
-          aria-controls="panel2d-content"
-          id="panel2d-header"
-        >
-          <Typography>Collapsible Group Item #2</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-            lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-      <ExpansionPanel
-        square
-        expanded={expanded === "panel3"}
-        onChange={handleChange("panel3")}
-      >
-        <ExpansionPanelSummary
-          aria-controls="panel3d-content"
-          id="panel3d-header"
-        >
-          <Typography>Collapsible Group Item #3</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-            lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+            <AddOutlinedIcon className="mr-2" />
+            <Typography style={{ fontWeight: "bold" }}>{val.title}</Typography>
+            <Typography style={{ marginLeft: "auto" }}>
+              {val.lectures.length} Lectures
+            </Typography>
+            <Typography
+              className="text-ligth"
+              style={{ marginLeft: 125, marginRight: 15 }}
+            >
+              N/A
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails style={{ padding: 0, margin: 1 }}>
+            <ul className="list-group list-group-flush w-100">
+              <li className="list-group-item">Woi</li>
+              <li className="list-group-item">Woi</li>
+              <li className="list-group-item">Woi</li>
+            </ul>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+      ))}
     </div>
   );
 }

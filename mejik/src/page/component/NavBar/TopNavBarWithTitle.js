@@ -6,7 +6,7 @@ import Logo from "../../../images/Logo.svg";
 import SearchInput from "../BootstrapInput/BootstrapInput";
 import SearchIcon from "@material-ui/icons/Search";
 
-const TopNavBarWithTitle = ({ color = "black" }) => {
+const TopNavBarWithTitle = ({ color = "black", title }) => {
   return (
     <nav style={{ padding: 0 }} className="navbar navbar-white bg-white">
       <img
@@ -16,7 +16,7 @@ const TopNavBarWithTitle = ({ color = "black" }) => {
         height="50"
         width="50"
       />
-      <h5 style={{ fontWeight: "bold" }}>Course Front End Dev 2020</h5>
+      <h5 style={{ fontWeight: "bold" }}>{title}</h5>
       <p style={{ fontWeight: "bold", color: color }}>My Course</p>
       <img
         src={image}

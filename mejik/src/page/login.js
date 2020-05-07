@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
-import { useQuery } from "@apollo/react-hooks";
+import { Redirect } from "react-router-dom";
 
 import Logography from "../images/Logography.svg";
 import Input from "./component/BootstrapInput/BootstrapInput";
@@ -12,18 +12,6 @@ const LOGIN = gql`
   mutation login($email: EmailAddress!, $password: String) {
     login(input: { email: $email, password: $password }) {
       token
-      user
-    }
-  }
-`;
-
-const COURSE = gql`
-  query {
-    courses {
-      id
-      title
-      cover
-      description
     }
   }
 `;
@@ -32,7 +20,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login] = useMutation(LOGIN);
-  const { error, data } = useQuery(COURSE);
 
   const postLogin = async () => {
     try {
@@ -42,19 +29,13 @@ const Login = () => {
           password: password,
         },
       });
-      console.log(data);
+      return data;
     } catch (error) {
-      console.log(error);
+      return error;
     }
   };
 
-  const getCourse = async () => {
-    try {
-      console.log(error, data);
-    } catch {
-      console.log(error);
-    }
-  };
+  if (localStorage.getItem("jwt")) return <Redirect to="/course/student" />;
   return (
     <div style={{ backgroundColor: "#8854d0" }}>
       <div className="container">
@@ -106,7 +87,14 @@ const Login = () => {
               color="black"
               width="325px"
               bgcolor="#fac024"
-              onClick={() => postLogin()}
+              onClick={async () => {
+                let data = await postLogin();
+                if (data.data) {
+                  localStorage.setItem("jwt", data.data.login.token);
+                } else {
+                  console.log("error");
+                }
+              }}
             />
             <div className="d-inline-flex" style={{ marginBottom: 80 }}>
               <p
