@@ -1,18 +1,40 @@
 import React from "react";
+import { gql } from "apollo-boost";
+import { useQuery } from "@apollo/react-hooks";
+import { Link } from "react-router-dom";
 
 import TopNavBar from "./component/NavBar/TopNavBarWithSearch";
 import Card from "./component/Card/CardWithImage";
 
+const COURSES = gql`
+  query {
+    courses {
+      id
+      title
+      cover
+      description
+    }
+  }
+`;
+
 const StudentCourse = () => {
+  const { loading, error, data } = useQuery(COURSES);
+  console.log(data?.courses);
   return (
     <div className="bg-light" style={{ height: "100vh" }}>
       <TopNavBar name="Switch to instructor view" />
-      <div className="container">
+      <div className="mx-5">
         <div className="row">
-          {new Array(10).fill("").map((val, i) => (
-            <div className="my-3 mx-1">
-              <Card />
-            </div>
+          {data?.courses.map((val) => (
+            <Link key={val.id} to={`/course/choose/${val.id}`}>
+              <div className="my-3 mx-1">
+                <Card
+                  img={val.cover}
+                  title={val.title}
+                  description={val.description}
+                />
+              </div>
+            </Link>
           ))}
         </div>
       </div>

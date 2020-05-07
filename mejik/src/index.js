@@ -2,27 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 
-import { ApolloClient } from "apollo-client";
-import { createHttpLink } from "apollo-link-http";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 
-const token = "";
-
-const link = createHttpLink({
-  uri: `https://mejikacademy1588499516927.microgen.mejik.id/graphql`,
-  credentials: "same-origin",
-  headers: {
-    authorization: ''
-  },
-  fetchOptions: {
-    mode: 'no-cors'
-  }
-});
+const token = localStorage.getItem("jwt");
 
 const client = new ApolloClient({
-  link,
-  cache: new InMemoryCache(),
+  uri: `https://mejikacademy1588499516927.microgen.mejik.id/graphql`,
+  headers: {
+    authorization: token ? `Bearer ${token}` : "",
+  },
 });
 
 ReactDOM.render(

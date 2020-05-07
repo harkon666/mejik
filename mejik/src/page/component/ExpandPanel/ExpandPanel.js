@@ -1,4 +1,6 @@
 import React from "react";
+import { Link, useParams } from "react-router-dom";
+
 import { makeStyles } from "@material-ui/core/styles";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -16,9 +18,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleExpansionPanel() {
+export default function SimpleExpansionPanel({ data }) {
   const classes = useStyles();
-
+  const { id1 } = useParams();
+  console.log(id1, "woiiiiiiiiii");
   return (
     <div className={classes.root}>
       <ExpansionPanel>
@@ -28,41 +31,22 @@ export default function SimpleExpansionPanel() {
           id="panel1a-header"
           className="bg-light border-bottom border-light"
         >
-          <Typography className={classes.heading}>Expansion Panel 1</Typography>
+          <Typography className={classes.heading}>{data.title}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails style={{ padding: 0, margin: 1 }}>
           <ul className="list-group list-group-flush w-100">
-            <li className="list-group-item">Woi</li>
-            <li className="list-group-item">Woi</li>
-            <li className="list-group-item">Woi</li>
+            {data.lectures.map((list) => (
+              <Link
+                key={list.id}
+                to={`/course/watch/${data.course.id}/${list.id}`}
+              >
+                <li key={list.id} className="list-group-item">
+                  {list.title}
+                </li>
+              </Link>
+            ))}
           </ul>
         </ExpansionPanelDetails>
-      </ExpansionPanel>
-      <ExpansionPanel>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography className={classes.heading}>Expansion Panel 2</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-      <ExpansionPanel disabled>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3a-content"
-          id="panel3a-header"
-        >
-          <Typography className={classes.heading}>
-            Disabled Expansion Panel
-          </Typography>
-        </ExpansionPanelSummary>
       </ExpansionPanel>
     </div>
   );
