@@ -1,4 +1,7 @@
 import React from "react";
+import { gql } from "apollo-boost";
+import { useQuery } from "@apollo/react-hooks";
+import { Link, useParams } from "react-router-dom";
 
 import TopNavBar from "./component/NavBar/TopNavBarWithSearch";
 import Card from "./component/Card/CardWithImage";

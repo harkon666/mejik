@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 //component
 import NavBar from "./component/NavBar/TopNavBarWithTitle";
 import ExpandPanel from "./component/ExpandPanel/ExpandPanel";
-import WatchGrid from "./component/WatchGrid/WatchGrid";
 
 const WatchCourse = () => {
   const { id1, id2 } = useParams();
