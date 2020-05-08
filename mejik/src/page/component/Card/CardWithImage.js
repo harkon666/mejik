@@ -1,11 +1,14 @@
 import React from "react";
 
 const CardWithImage = ({ title, description, img, onClick }) => {
-  let newDesc =
-    description
-      .split("")
-      .filter((s, i) => i < 45)
-      .join("") + "...";
+  let newDesc;
+  if (description) {
+    newDesc =
+      description
+        .split("")
+        .filter((s, i) => i < 45)
+        .join("") + "...";
+  }
   return (
     <div
       className="card"

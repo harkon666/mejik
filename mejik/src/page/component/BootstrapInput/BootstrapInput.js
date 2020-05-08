@@ -27,6 +27,7 @@ const Input = ({
   label = null,
   labelColor,
   width,
+  style,
 }) => {
   const classes = useStyles();
   const Icon = icon;
@@ -72,6 +73,7 @@ const Input = ({
         {label}
       </Label>
       <InputBase
+        style={style}
         className={inputStyle.root}
         placeholder={name}
         type={type}
