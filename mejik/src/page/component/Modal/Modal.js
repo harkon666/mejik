@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link} from "react-router-dom";
 
 import Input from "../BootstrapInput/BootstrapInput";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import UploadButton from "@material-ui/core/Button";
+import IconButton from '@material-ui/core/IconButton';
+import CloudUpload from '@material-ui/icons/CloudUpload'
 import Button from "../Button/Button";
 import { Card } from "react-bootstrap";
 
@@ -17,7 +18,7 @@ const CREATE_COURSE = gql`
     createCourse(
       input: { title: $title, cover: $cover, description: $description }
     ) {
-      title
+      id
     }
   }
 `;
@@ -46,6 +47,7 @@ export default function TransitionsModal({ open, handleClose }) {
   const [nameCourse, setNameCourse] = useState("");
   const [descriptions, setDescriptions] = useState("");
   const [success, setSuccess] = useState(false);
+  const [id, setId] = useState(null)
 
   const CreateCourse = async () => {
     try {
@@ -53,6 +55,7 @@ export default function TransitionsModal({ open, handleClose }) {
         variables: {
           title: nameCourse,
           description: descriptions,
+          cover: null 
         },
       });
       return data;
@@ -66,7 +69,8 @@ export default function TransitionsModal({ open, handleClose }) {
   //     formData.append("id", id);
   //     formData.append("payment", file);
   //   };
-  if (success) return <Redirect to="/course/create" />;
+
+  if (success) return <Redirect to={`/course/create/${id}`} />;
   return (
     <div>
       <Modal
@@ -103,15 +107,15 @@ export default function TransitionsModal({ open, handleClose }) {
               labelColor="black"
               onChange={(e) => setDescriptions(e.target.value)}
             />
-            <Card className="bg-dark text-white ml-2 mt-4">
+            <h4 className="text-black text-center">
+            {file ? <Card className="bg-dark text-white ml-2 mt-4" style={{ height: 200, weight: 150, marginRight: 115 }}>
               <Card.Img
+              style={{height: 200, weight: 150}}
                 alt="Attachment card"
-                style={{ height: "180px" }}
                 src={preview}
               />
-              <Card.ImgOverlay></Card.ImgOverlay>
-            </Card>
-            <h4 className="text-black text-center">
+              <Card.ImgOverlay />
+            </Card> : 
               <form style={{ marginTop: 8 }} enctype="multipart/form-data">
                 <input
                   accept="image/*"
@@ -121,25 +125,28 @@ export default function TransitionsModal({ open, handleClose }) {
                   style={{ display: "none" }}
                   name="payment"
                   onChange={(e) => {
-                    setFile(e.target.files[0]);
-                    setPreview(URL.createObjectURL(e.target.files[0]));
+                    // const [filed] = e.target.files
+                    // console.log(URL.createObjectURL(filed).split(':').splice(1,3).join(':'))
+                    // setFile(URL.createObjectURL(filed).split(':').splice(1,3).join(':'));
+                    // setPreview(URL.createObjectURL(e.target.files[0]));
                   }}
                 />
                 <label
                   style={{ marginTop: 8, marginBottom: 30 }}
                   htmlFor="contained-button-file"
                 >
-                  <UploadButton
-                    variant="contained"
-                    color="white"
-                    className="bg-primary"
-                    component="span"
-                    style={{ width: "335px" }}
-                  >
-                    Upload
-                  </UploadButton>
+                  <div style={{ borderStyle: 'solid', borderColor: '#8854d0' , height: 200, weight: 150, marginRight: 115}}>
+                  <IconButton variant="outlined"
+                  style={{color: '#8854d0', borderColor: '#8854d0', borderWidth: 'thick', marginTop: '25%'}
+                  }
+                   aria-label="upload picture" component="span">
+                    <CloudUpload />
+                    Upload Cover Here
+                  </IconButton>
+                  </div>
                 </label>
-              </form>
+              </form> }
+              
             </h4>
             <div className="d-inline-flex w-100">
               <Button
@@ -159,7 +166,8 @@ export default function TransitionsModal({ open, handleClose }) {
                 bgcolor="#8854d0"
                 onClick={async () => {
                   let data = await CreateCourse();
-                  if (data) {
+                  if (data.data) {
+                    setId(data.data.createCourse.id)
                     console.log(data, "success");
                     setSuccess(true);
                   } else {

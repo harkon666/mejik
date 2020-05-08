@@ -27,7 +27,7 @@ function App() {
         <Route path="/my-course" exact component={MyCourse} />
         <Route path="/course/instructor" exact component={InstructorCourse} />
         <Route path="/course/choose/:id" exact component={Course} />
-        <Route path="/course/create" exact component={CreateCourse} />
+        <Route path="/course/create/:id" exact component={CreateCourse} />
         <Route path="/course/watch/:id1/:id2" exact component={WatchCourse} />
         <Route path="/register" exact component={Register} />
       </Switch>

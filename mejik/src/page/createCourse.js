@@ -1,15 +1,42 @@
-import React from "react";
+import React, {useState} from "react";
 import {Redirect} from 'react-router-dom'
+import update from 'react-addons-update';
 
 //component
 import NavBar from "./component/NavBar/TopNavBar";
 import Button from "./component/Button/Button";
 import Input from "./component/BootstrapInput/BootstrapInput";
+import CardLecture from './component/Card/CardLecture'
+import ExpandPanelLecture from './component/ExpandPanel/ExpandPanelLecture'
 
 //material icon
 import DragIndicatorOutlinedIcon from "@material-ui/icons/DragIndicatorOutlined";
 
 const CreateCourse = () => {
+  const [section, setSection] = useState([])
+  const [lecture, setLecture] = useState([])
+  const [textSection, setTextSection] = useState({
+    title: '',
+    lectures: null,
+    course: null
+  })
+  const [textLecture, setTextLecture] = useState({
+    title: '',
+    link: '',
+    description: ''
+  })
+  const [togleSection, setTogleSecton] = useState(false)
+  const [togleLecture, setTogleLecture] = useState(false)
+
+  console.log(togleLecture, 'woi')
+
+  const handleLecture = (e, i) => {
+    let items = [...lecture]
+    let item = {...items[i], title: e.target.value}
+    items[i] = item
+    setLecture([items])
+  }
+  
   if (!localStorage.getItem('jwt')) return <Redirect to="/login" /> 
 
   return (
@@ -51,98 +78,44 @@ const CreateCourse = () => {
               ></Button>
             </div>
             <div className="bg-light mx-3 my-4">
-              <div className="d-inline-flex my-2 w-100">
-                <DragIndicatorOutlinedIcon className="mx-3" />
-                <h6 style={{ fontWeight: 800 }} className="mx-1">
-                  Section 1:
-                </h6>
-                <p>Course Overview - Start Here!</p>
-              </div>
+              {lecture.map((val, i) => <ExpandPanelLecture data={lecture[i]} title={(e) => handleLecture(e, i)} />)}
               <div className="container">
-                <div className="d-inline-flex mb-2 mt-3 w-100 bg-white">
-                  <DragIndicatorOutlinedIcon className="mx-3 mt-3" />
-                  <p style={{ fontWeight: 800 }} className="mx-1 mt-3">
-                    Lecture 1:
-                  </p>
-                  <p className="mt-3">How To Get Help</p>
-                </div>
-                <Button
-                  name="New Lecture"
+                {togleLecture ? 
+                <div>
+                <ExpandPanelLecture 
+                  data={textLecture} 
+                  title={(e) => setTextLecture({...textLecture, title: e.target.value })} />
+                  <Button
+                  name="Done"
                   bgcolor="#f0f2f5"
                   style={{
                     fontWeight: 800,
                     marginTop: 10,
                     marginBottom: 15,
                   }}
+                  onClick={() => {
+                    setLecture([...lecture, setTextLecture])
+                    setTextLecture({
+                      title: '',
+                      link: '',
+                      description: ''
+                    })
+                    setTogleLecture(false);
+                  }}
                   width="100%"
                 ></Button>
-              </div>
-            </div>
-            <div className="bg-light mx-3 my-4">
-              <div className="d-inline-flex mb-2 mt-3 w-100">
-                <DragIndicatorOutlinedIcon className="mx-3" />
-                <h6 style={{ fontWeight: 800 }} className="mx-1">
-                  Section 2:
-                </h6>
-                <h6>Server Side Architecture</h6>
-              </div>
-              <div className="card-body">
-                <div className="container bg-white">
-                  <div className="row">
-                    <div className="col-1 mt-3">
-                      <DragIndicatorOutlinedIcon />
-                    </div>
-                    <div className="col">
-                      <div className="row mt-3">
-                        <div className="col-8">
-                          <Input
-                            bgcolor="#f0f2f5"
-                            color="black"
-                            name="Search course here ..."
-                            label="Lecture title"
-                            labelColor="black"
-                            width="100%"
-                          />
-                        </div>
-                        <div className="col-4">
-                          <Input
-                            bgcolor="#f0f2f5"
-                            color="black"
-                            name="Search course here ..."
-                            label="Thumbnail"
-                            type="file"
-                            labelColor="black"
-                            width="100%"
-                          />
-                        </div>
-                      </div>
-                      <div className="row mt-3">
-                        <div className="col">
-                          <Input
-                            bgcolor="#f0f2f5"
-                            color="black"
-                            name="Embbed link video"
-                            label="Insert Embbed link video"
-                            labelColor="black"
-                            width="100%"
-                          />
-                        </div>
-                      </div>
-                      <div className="row mt-3">
-                        <div className="col">
-                          <Input
-                            bgcolor="#f0f2f5"
-                            color="black"
-                            name="Briefly describe this course"
-                            label="DesCription"
-                            labelColor="black"
-                            width="100%"
-                          />
-                        </div>
-                      </div>
-                    </div>
                   </div>
-                </div>
+                   : <Button
+                   name="New Lecture"
+                   bgcolor="#f0f2f5"
+                   style={{
+                     fontWeight: 800,
+                     marginTop: 10,
+                     marginBottom: 15,
+                   }}
+                   onClick={() => setTogleLecture(true)}
+                   width="100%"
+                 ></Button>}
               </div>
             </div>
             <div className="bg-light mx-3 my-4">
